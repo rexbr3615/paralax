@@ -38,11 +38,15 @@ def run_code():
     try:
         code = code_entry.get("1.0", tk.END).strip()
         result = interpreter.interpret(code)
+        output_text.config(state=tk.NORMAL)
         output_text.delete("1.0", tk.END)
         output_text.insert(tk.END, result)
+        output_text.config(state=tk.DISABLED)
     except Exception as e:
+        output_text.config(state=tk.NORMAL)
         output_text.delete("1.0", tk.END)
         output_text.insert(tk.END, f"Erro: {e}\n")
+        output_text.config(state=tk.DISABLED)
 
 interpreter = Interpreter()
 
@@ -59,7 +63,10 @@ run_button = tk.Button(root, text="Run", command=run_code)
 run_button.pack()
 
 # Área de saída para o resultado
-output_text = tk.Text(root, height=5, width=40)
+output_text = tk.Text(root, height=10, width=40)
 output_text.pack()
+
+# Desabilitando a edição da área de saída
+output_text.config(state=tk.DISABLED)
 
 root.mainloop()
