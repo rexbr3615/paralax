@@ -10,13 +10,15 @@ class Interpreter:
             line = line.strip()
             if line:
                 try:
-                    if line.startswith("int") or line.startswith("string"):
+                    if line.startswith("int") or line.startswith("string") or line.startswith("bool"):
                         type_, rest = line.split(" ", 1)
                         var_name, value = map(str.strip, rest.split("="))
                         if type_ == "int":
                             self.variables[var_name] = int(value)
                         elif type_ == "string":
                             self.variables[var_name] = value.strip('"')
+                        elif type_ == "bool":
+                            self.variables[var_name] = True if value.strip('"') == "true" else False
                     elif line.startswith("print(") and line.endswith(")"):
                         content = line[len("print("):-1]
                         if "+" in content:
