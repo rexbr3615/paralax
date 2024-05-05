@@ -4,6 +4,7 @@
 print("uiui");
 int rosas = 12;
 string pdr = "numero de rosas";
+timer(segundos, 18);
 print(pdr);
 print(rosas);
 print(pdr + " " + rosas);
