@@ -24,6 +24,14 @@ class Interpreter:
                             result += "".join([str(eval(part.strip(), {}, self.variables)) for part in parts]) + "\n"
                         else:
                             result += str(eval(content, {}, self.variables)) + "\n"
+                    elif line.startswith("timer(") and line.endswith(")"):
+                        params = line[len("timer("):-1].split(",")
+                        time_unit = params[0].strip()
+                        duration = int(params[1].strip())
+                        if time_unit == "segundos":
+                            root.after(duration * 1000, run_code)
+                        elif time_unit == "milisegundos":
+                            root.after(duration, run_code)
                     else:
                         result += str(eval(line, {}, self.variables)) + "\n"
                 except SyntaxError:
