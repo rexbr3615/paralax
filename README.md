@@ -29,3 +29,6 @@ int d = 0;
 d = c + b + a;
 
 print(d);
+
+random_number(1,900)
+print(random_number(1,900))
