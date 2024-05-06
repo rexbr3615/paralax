@@ -26,9 +26,9 @@ int b = 13
 int c = 17
 int d = 0
 
-d = c + b + a
+d = a + b + c + rosas
 
-print(d);
+print(d)
 
 random_number(1,900)
 print(random_number(1,900))
