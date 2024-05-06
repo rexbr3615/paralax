@@ -25,11 +25,20 @@ class Interpreter:
                             self.variables[var_name] = True if value.strip().lower() == "true" else False
                     elif line.startswith("print(") and line.endswith(")"):
                         content = line[len("print("):-1]
-                        if "+" in content:
-                            parts = content.split("+")
-                            result += "".join([str(eval(part.strip(), {}, self.variables)) for part in parts]) + "\n"
+                        if "random_number" in content:
+                            start = content.find("random_number(")
+                            end = content.find(")", start)
+                            args = content[start+len("random_number("):end].split(",")
+                            min_value = int(args[0].strip())
+                            max_value = int(args[1].strip())
+                            value = random.randint(min_value, max_value)
+                            result += content[:start] + str(value) + content[end+1:] + "\n"
                         else:
-                            result += str(eval(content, {}, self.variables)) + "\n"
+                            if "+" in content:
+                                parts = content.split("+")
+                                result += "".join([str(eval(part.strip(), {}, self.variables)) for part in parts]) + "\n"
+                            else:
+                                result += str(eval(content, {}, self.variables)) + "\n"
                     elif line.startswith("timer(") and line.endswith(")"):
                         params = line[len("timer("):-1].split(",")
                         time_unit = params[0].strip()
