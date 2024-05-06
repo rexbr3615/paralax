@@ -7,8 +7,10 @@ class Interpreter:
 
     def interpret(self, code):
         result = ""
-        for line in code.split(";"):
-            line = line.strip()
+        code_lines = code.split(";")
+        i = 0
+        while i < len(code_lines):
+            line = code_lines[i].strip()
             if line:
                 try:
                     if line.startswith("int") or line.startswith("string") or line.startswith("bool"):
@@ -35,6 +37,26 @@ class Interpreter:
                             root.after(duration * 1000, run_code)
                         elif time_unit == "milisegundos":
                             root.after(duration, run_code)
+                    elif line.startswith("if ") and line.endswith("{"):
+                        condition = line[3:-2].strip()
+                        if self.variables.get(condition, False):
+                            block = ""
+                            while True:
+                                i += 1
+                                if code_lines[i].strip() == "}":
+                                    break
+                                block += code_lines[i] + ";"
+                            result += self.interpret(block)
+                        else:
+                            while True:
+                                i += 1
+                                if code_lines[i].strip() == "}":
+                                    break
+                    elif line.startswith("else {"):
+                        while True:
+                            i += 1
+                            if code_lines[i].strip() == "}":
+                                break
                     else:
                         result += str(eval(line, {}, self.variables)) + "\n"
                 except SyntaxError:
@@ -43,6 +65,7 @@ class Interpreter:
                     result += "Erro: Variável não definida\n"
                 except Exception as e:
                     result += f"Erro: {e}\n"
+            i += 1
         return result.strip()
 
 def run_code():
