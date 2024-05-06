@@ -34,5 +34,5 @@ random_number(1,900)
 print(random_number(1,900))
 
 
-$print(random_number(1,900))
+#print(random_number(1,900))
 

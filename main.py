@@ -12,7 +12,7 @@ class Interpreter:
         i = 0
         while i < len(code_lines):
             line = code_lines[i].strip()
-            if line:
+            if line and not line.startswith("#"):  # Ignorar linhas que começam com #
                 try:
                     if line.startswith("int") or line.startswith("string") or line.startswith("bool"):
                         type_, rest = line.split(" ", 1)
