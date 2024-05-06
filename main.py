@@ -62,19 +62,54 @@ interpreter = Interpreter()
 
 # Criando a janela principal
 root = tk.Tk()
-root.title("Interpreter")
+root.title("IDE")
+
+# Criação da barra de menu
+menubar = tk.Menu(root)
+
+file_menu = tk.Menu(menubar, tearoff=0)
+file_menu.add_command(label="Novo")
+file_menu.add_command(label="Abrir")
+file_menu.add_command(label="Salvar")
+file_menu.add_command(label="Salvar como")
+file_menu.add_separator()
+file_menu.add_command(label="Sair", command=root.quit)
+menubar.add_cascade(label="Arquivo", menu=file_menu)
+
+edit_menu = tk.Menu(menubar, tearoff=0)
+edit_menu.add_command(label="Desfazer")
+edit_menu.add_command(label="Refazer")
+edit_menu.add_separator()
+edit_menu.add_command(label="Recortar")
+edit_menu.add_command(label="Copiar")
+edit_menu.add_command(label="Colar")
+edit_menu.add_separator()
+edit_menu.add_command(label="Selecionar tudo")
+menubar.add_cascade(label="Editar", menu=edit_menu)
+
+view_menu = tk.Menu(menubar, tearoff=0)
+view_menu.add_command(label="Ampliar")
+view_menu.add_command(label="Reduzir")
+view_menu.add_command(label="Restaurar padrão")
+menubar.add_cascade(label="Visualizar", menu=view_menu)
+
+help_menu = tk.Menu(menubar, tearoff=0)
+help_menu.add_command(label="Sobre")
+menubar.add_cascade(label="Ajuda", menu=help_menu)
+
+root.config(menu=menubar)
 
 # Campo de entrada para o código
-code_entry = tk.Text(root, height=10, width=40)
-code_entry.pack()
+code_entry = tk.Text(root, height=20, width=60)
+code_entry.pack(fill=tk.BOTH, expand=True, padx=10, pady=5)
 
 # Botão "Run"
 run_button = tk.Button(root, text="Run", command=run_code)
-run_button.pack()
+run_button.pack(pady=5)
 
 # Área de saída para o resultado
-output_text = tk.Text(root, height=10, width=40)
-output_text.pack()
+output_text = tk.Text(root, height=10, width=60)
+output_text.pack(fill=tk.BOTH, expand=True, padx=10, pady=5)
 
 # Desabilitando a edição da área de saída
 output_text.config(state=tk.DISABLED)
