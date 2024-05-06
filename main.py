@@ -7,7 +7,7 @@ class Interpreter:
 
     def interpret(self, code):
         result = ""
-        code_lines = code.split(";")
+        code_lines = code.split("\n")  # Dividir o código por linhas
         i = 0
         while i < len(code_lines):
             line = code_lines[i].strip()
@@ -37,26 +37,31 @@ class Interpreter:
                             root.after(duration * 1000, run_code)
                         elif time_unit == "milisegundos":
                             root.after(duration, run_code)
-                    elif line.startswith("if ") and line.endswith("{"):
-                        condition = line[3:-2].strip()
+                    elif line.startswith("if "):
+                        condition = line[3:].strip()
                         if self.variables.get(condition, False):
+                            # Encontra o bloco de código do 'if'
                             block = ""
                             while True:
                                 i += 1
-                                if code_lines[i].strip() == "}":
+                                if i >= len(code_lines) or code_lines[i].strip() == "else:":
                                     break
-                                block += code_lines[i] + ";"
+                                block += code_lines[i] + "\n"
                             result += self.interpret(block)
-                        else:
-                            while True:
-                                i += 1
-                                if code_lines[i].strip() == "}":
-                                    break
-                    elif line.startswith("else {"):
+                            if i < len(code_lines) and code_lines[i].strip() == "else:":
+                                while True:
+                                    i += 1
+                                    if i >= len(code_lines) or code_lines[i].strip() == "endif":
+                                        break
+                    elif line.startswith("else:"):
+                        # Encontra o bloco de código do 'else'
+                        block = ""
                         while True:
                             i += 1
-                            if code_lines[i].strip() == "}":
+                            if i >= len(code_lines) or code_lines[i].strip() == "endif":
                                 break
+                            block += code_lines[i] + "\n"
+                        result += self.interpret(block)
                     else:
                         result += str(eval(line, {}, self.variables)) + "\n"
                 except SyntaxError:
