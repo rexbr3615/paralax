@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import filedialog
 
 class Interpreter:
     def __init__(self):
@@ -58,6 +59,31 @@ def run_code():
         output_text.insert(tk.END, f"Erro: {e}\n")
         output_text.config(state=tk.DISABLED)
 
+def new_file():
+    code_entry.delete("1.0", tk.END)
+    output_text.config(state=tk.NORMAL)
+    output_text.delete("1.0", tk.END)
+    output_text.config(state=tk.DISABLED)
+
+def open_file():
+    file_path = filedialog.askopenfilename(filetypes=[("Text files", "*.txt"), ("All files", "*.*")])
+    if file_path:
+        with open(file_path, "r") as file:
+            code_entry.delete("1.0", tk.END)
+            code_entry.insert("1.0", file.read())
+
+def save_file():
+    file_path = filedialog.asksaveasfilename(defaultextension=".txt", filetypes=[("Text files", "*.txt"), ("All files", "*.*")])
+    if file_path:
+        with open(file_path, "w") as file:
+            file.write(code_entry.get("1.0", tk.END))
+
+def save_file_as():
+    file_path = filedialog.asksaveasfilename(defaultextension=".txt", filetypes=[("Text files", "*.txt"), ("All files", "*.*")])
+    if file_path:
+        with open(file_path, "w") as file:
+            file.write(code_entry.get("1.0", tk.END))
+
 interpreter = Interpreter()
 
 # Criando a janela principal
@@ -68,10 +94,10 @@ root.title("IDE")
 menubar = tk.Menu(root)
 
 file_menu = tk.Menu(menubar, tearoff=0)
-file_menu.add_command(label="Novo")
-file_menu.add_command(label="Abrir")
-file_menu.add_command(label="Salvar")
-file_menu.add_command(label="Salvar como")
+file_menu.add_command(label="Novo", command=new_file)
+file_menu.add_command(label="Abrir", command=open_file)
+file_menu.add_command(label="Salvar", command=save_file)
+file_menu.add_command(label="Salvar como", command=save_file_as)
 file_menu.add_separator()
 file_menu.add_command(label="Sair", command=root.quit)
 menubar.add_cascade(label="Arquivo", menu=file_menu)
