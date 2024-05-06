@@ -34,11 +34,9 @@ class Interpreter:
                             value = random.randint(min_value, max_value)
                             result += content[:start] + str(value) + content[end+1:] + "\n"
                         else:
-                            if "+" in content:
-                                parts = content.split("+")
-                                result += "".join([str(eval(part.strip(), {}, self.variables)) for part in parts]) + "\n"
-                            else:
-                                result += str(eval(content, {}, self.variables)) + "\n"
+                            parts = content.split("+")
+                            evaluated_parts = [str(eval(part.strip(), {}, self.variables)) for part in parts]
+                            result += "".join(evaluated_parts) + "\n"
                     elif line.startswith("timer(") and line.endswith(")"):
                         params = line[len("timer("):-1].split(",")
                         time_unit = params[0].strip()
@@ -78,7 +76,11 @@ class Interpreter:
                             block += code_lines[i] + "\n"
                         result += self.interpret(block)
                     else:
-                        result += str(eval(line, {}, self.variables)) + "\n"
+                        if "=" in line:
+                            var_name, value = map(str.strip, line.split("="))
+                            self.variables[var_name] = eval(value, {}, self.variables)
+                        else:
+                            result += str(eval(line, {}, self.variables)) + "\n"
                 except SyntaxError:
                     result += "Erro de sintaxe\n"
                 except NameError:

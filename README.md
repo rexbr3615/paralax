@@ -21,12 +21,12 @@ if x = 10:
 else:
     print("y")
 
-int a = 9;
-int b = 13;
-int c = 17;
-int d = 0;
+int a = 9
+int b = 13
+int c = 17
+int d = 0
 
-d = c + b + a;
+d = c + b + a
 
 print(d);
 
