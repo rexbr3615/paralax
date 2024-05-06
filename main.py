@@ -18,7 +18,7 @@ class Interpreter:
                         elif type_ == "string":
                             self.variables[var_name] = value.strip('"')
                         elif type_ == "bool":
-                            self.variables[var_name] = True if value.strip('"') == "true" else False
+                            self.variables[var_name] = True if value.strip().lower() == "true" else False
                     elif line.startswith("print(") and line.endswith(")"):
                         content = line[len("print("):-1]
                         if "+" in content:

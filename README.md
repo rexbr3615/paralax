@@ -11,8 +11,4 @@ print(pdr + " " + rosas);
 bool po1 = false;
 print(po1);
 bool is_true = true;
-if is_true {
-    print("It's true!");
-} else {
-    print("It's false!");
-}
+print(is_true);
