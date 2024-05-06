@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import filedialog
+import random
 
 class Interpreter:
     def __init__(self):
@@ -37,6 +38,11 @@ class Interpreter:
                             root.after(duration * 1000, run_code)
                         elif time_unit == "milisegundos":
                             root.after(duration, run_code)
+                    elif line.startswith("random_number(") and line.endswith(")"):
+                        params = line[len("random_number("):-1].split(",")
+                        min_value = int(params[0].strip())
+                        max_value = int(params[1].strip())
+                        result += str(random.randint(min_value, max_value)) + "\n"
                     elif line.startswith("if "):
                         condition = line[3:].strip()
                         if self.variables.get(condition, False):
