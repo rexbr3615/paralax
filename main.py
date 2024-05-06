@@ -112,6 +112,7 @@ interpreter = Interpreter()
 # Criando a janela principal
 root = tk.Tk()
 root.title("IDE")
+root.iconbitmap("Paralax.ico")
 
 # Criação da barra de menu
 menubar = tk.Menu(root)
