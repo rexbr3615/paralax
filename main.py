@@ -50,31 +50,6 @@ class Interpreter:
                         min_value = int(params[0].strip())
                         max_value = int(params[1].strip())
                         result += str(random.randint(min_value, max_value)) + "\n"
-                    elif line.startswith("if "):
-                        condition = line[3:].strip()
-                        if self.variables.get(condition, False):
-                            # Encontra o bloco de código do 'if'
-                            block = ""
-                            while True:
-                                i += 1
-                                if i >= len(code_lines) or code_lines[i].strip() == "else:":
-                                    break
-                                block += code_lines[i] + "\n"
-                            result += self.interpret(block)
-                            if i < len(code_lines) and code_lines[i].strip() == "else:":
-                                while True:
-                                    i += 1
-                                    if i >= len(code_lines) or code_lines[i].strip() == "endif":
-                                        break
-                    elif line.startswith("else:"):
-                        # Encontra o bloco de código do 'else'
-                        block = ""
-                        while True:
-                            i += 1
-                            if i >= len(code_lines) or code_lines[i].strip() == "endif":
-                                break
-                            block += code_lines[i] + "\n"
-                        result += self.interpret(block)
                     else:
                         if "=" in line:
                             var_name, value = map(str.strip, line.split("="))
@@ -187,3 +162,6 @@ output_text.pack(fill=tk.BOTH, expand=True, padx=10, pady=5)
 output_text.config(state=tk.DISABLED)
 
 root.mainloop()
+
+
+# tenho uma ideia, apos o : criar uma estrutura para garantir que o codigo funcione
